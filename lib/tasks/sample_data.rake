@@ -1,25 +1,27 @@
-desc "Fill the database tables with some sample data"
-task({ :sample_data => :environment }) do
-  puts "Creating sample data..."
+# lib/tasks/sample_data.rake
 
-  # if Rails.env.development?
-  puts "Deleting the previous data..."
-  Item.destroy_all
-  # end
+desc "Fill the database tables with some sample data"
+task sample_data: :environment do
+  puts "Seeding sample data..."
+
+  if Rails.env.development?
+    puts "Deleting old Item records..."
+    Item.destroy_all
+  end
 
   puts "Creating first item..."
-  item_1 = Item.new
-  item_1.link_url = "https://paulgraham.com/startupideas.html"
-  item_1.link_description = "How to Get Startup Ideas — Paul Graham"
-  item_1.thumbnail_url = "https://fastly.picsum.photos/id/554/200/200.jpg?hmac=wvBDWVN6iXLUYv4DYpQ9fWSg_2y3dCYyzy4N_6H26pY"
-  item_1.save
+  Item.create!(
+    link_url: "https://en.wikipedia.org/wiki/Frog",
+    link_description: "Wikipedia Frog Article",
+    thumbnail_url: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Bombina_bombina_1_%28Marek_Szczepanek%29_tight_crop.jpg"
+  )
 
   puts "Creating second item..."
-  item_2 = Item.new
-  item_2.link_url = "https://practicaltypography.com/typography-in-ten-minutes.html"
-  item_2.link_description = "Typography in Ten Minutes — Matthew Butterick"
-  item_2.thumbnail_url = "https://fastly.picsum.photos/id/682/200/200.jpg?hmac=098XkPnTe9a41I6BtB9xV4t6L8c3ESkdowMLElFBR5A"
-  item_2.save
+  Item.create!(
+    link_url: "https://rubyonrails.org/",
+    link_description: "Rails Homepage",
+    thumbnail_url: "https://upload.wikimedia.org/wikipedia/commons/6/62/Ruby_On_Rails_Logo.svg"
+  )
 
-  puts "Done!"
+  puts "Done! Sample data created."
 end
